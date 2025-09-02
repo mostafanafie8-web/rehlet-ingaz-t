@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>رحلة إنجاز الطلاب</title>
+  <style>
+    :root{--main:#2c3e50;--accent:#27ae60;--gold:#f39c12}
+    body{font-family:Tahoma, Arial, sans-serif;direction:rtl;background:#f6f7fb;margin:0;padding:20px}
+    .container{max-width:1000px;margin:0 auto}
+    
+    /* ✅ الهيدر بخلفية خضراء */
+    header{
+      background: var(--accent);
+      border-radius:12px;
+      padding:14px 16px;
+      display:flex;
+      gap:16px;
+      align-items:center;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      color:#fff;
+    }
+
+    /* ✅ النصوص باللون الأبيض */
+    header .school-name,
+    header .teacher-name,
+    header .meta {
+      color:#fff;
+    }
+
+    .left, .right{display:flex;flex-direction:column;gap:6px}
+    .left{flex:1;align-items:flex-start}
+    .right{align-items:flex-end}
+
+    .logo-placeholder, .teacher-photo{
+      width:72px;height:72px;border-radius:8px;background:#eef2f7;
+      border:2px solid #d0d7e6;display:flex;align-items:center;justify-content:center;
+      font-size:28px;color:#98a6b8;overflow:hidden;background-size:cover;background-position:center;
+    }
+    .meta{font-size:14px}
+    .school-name{font-weight:700;font-size:18px}
+    .year{font-size:13px}
+    .teacher-name{font-weight:700;font-size:15px}
+    h1.title{margin:14px 0 8px 0;text-align:center;font-size:26px;color:var(--accent)}
+
+    /* باقي التنسيقات */
+    .students-wrap{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+    .student{background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+    .progress{display:grid;grid-template-columns:repeat(15,1fr);gap:6px;margin:8px 0}
+    .point{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e6e9ee;cursor:pointer;user-select:none;transition:transform .12s,background .18s}
+    .point.active{background:var(--accent);color:#fff;transform:scale(1.05)}
+    .point.special{background:var(--gold);color:#fff}
+    .counter{font-size:14px;color:#444;margin-top:6px}
+    .controls{display:flex;gap:8px;margin-top:8px}
+    button{padding:6px 10px;border-radius:8px;border:none;cursor:pointer;font-size:14px}
+    .add{background:var(--accent);color:#fff}
+    .remove{background:#e67e22;color:#fff}
+    .reset{background:#c0392b;color:#fff}
+    .reward{margin-top:10px;padding:10px;border-radius:8px;background:#f0fff4;border:1px solid #d6f2df;display:none}
+    .teacher-board{margin-top:18px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+    table{width:100%;border-collapse:collapse;text-align:center}
+    th,td{padding:8px;border:1px solid #eef2f7;font-size:14px}
+    th{background:var(--main);color:#fff}
+    .hint{color:#666;margin-top:10px;font-size:13px}
+    @media (max-width:720px){
+      .progress{grid-template-columns:repeat(10,1fr)}
+      header{flex-direction:column;align-items:stretch}
+      .right{align-items:flex-start}
+      .left{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="left">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="logo-placeholder" id="schoolLogo" style="background-image:url('https://i.postimg.cc/MHx479Wb/logo.webp')"></div>
+          <div>
+            <div class="school-name" id="schoolName">ثانوية الفيصلية الأهلية بجدة-فرع الفلاح</div>
+            <div class="meta year" id="schoolYear"> العام الدراسي1447هـ</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:0 0 1px;width:1px;height:56px;background:#eef2f7"></div>
+
+      <div class="right">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="teacher-photo" id="teacherPhoto" style="background-image:url('https://i.postimg.cc/jSkGp6Xt/unnamed.jpg')"></div>
+          <div style="text-align:right">
+            <div class="teacher-name" id="teacherName">د. مصطفى شحات نافع</div>
+            <div class="meta small-note">معلم اللغة العربية والموهوبين</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <h1 class="title">رحلة إنجاز طلاب الموهبة</h1>
+
+    <div class="students-wrap">
+      <div class="student" data-id="1" data-target="30" data-parent="00000000">
+        <div class="name">سعود هشام أحمد</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+<div class="students-wrap">
+      <div class="student" data-id="2" data-target="30" data-parent="00000000">
+        <div class="name">عبد الله محمد الشمراني</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+<div class="students-wrap">
+      <div class="student" data-id="3" data-target="30" data-parent="00000000">
+        <div class="name">قصي هاني الغامدي</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+<div class="students-wrap">
+      <div class="student" data-id="4" data-target="30" data-parent="00000000">
+        <div class="name">سعد عبدالعزيز البقمي</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+<div class="students-wrap">
+      <div class="student" data-id="5" data-target="30" data-parent="00000000">
+        <div class="name">عمر عبدالله الغامدي</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+<div class="students-wrap">
+      <div class="student" data-id="6" data-target="30" data-parent="00000000">
+        <div class="name">باسل عبدالله السلمي</div>
+        <div class="progress"></div>
+        <div class="counter"></div>
+        <div class="reward"></div>
+        <div class="controls">
+          <button class="add">➕</button>
+          <button class="remove">➖</button>
+          <button class="reset">🔄 إعادة</button>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="teacher-board">
+      <h2>لوحة المعلم 📊</h2>
+      <table>
+        <thead>
+          <tr><th>اسم الطالب</th><th>النقاط</th><th>الهدف</th><th>المكافأة الحالية</th><th>جوال ولي الأمر</th></tr>
+        </thead>
+        <tbody id="teacherTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const surprisePoints = [5,10,15,20,25];
+    const surprises = [
+      "🎟️ قسيمة شراء بقيمة 5 ريال",
+      "⭐ نجمة تميز",
+      "🌹 شهادة شكر وتقدير",
+      "🍫 قطعة شوكولاتة",
+      "🎫 إعفاء من الواجب لمرة واحدة"
+    ];
+
+    const teacherTable = document.getElementById("teacherTable");
+
+    document.querySelectorAll(".student").forEach(student => {
+      const id = student.dataset.id;
+      const target = parseInt(student.dataset.target);
+      const parentPhone = student.dataset.parent;
+      const name = student.querySelector(".name").textContent;
+      const progress = student.querySelector(".progress");
+      const counter = student.querySelector(".counter");
+      const reward = student.querySelector(".reward");
+      const addBtn = student.querySelector(".add");
+      const removeBtn = student.querySelector(".remove");
+      const resetBtn = student.querySelector(".reset");
+
+      for (let i = 1; i <= target; i++) {
+        const p = document.createElement("div");
+        p.classList.add("point");
+        if (i === 1) p.textContent = "🏠";
+        else if (i === target) p.textContent = "🏆";
+        else if (surprisePoints.includes(i)) { p.textContent = "🎁"; p.classList.add("special"); p.title = "نقطة مفاجأة"; }
+        else p.textContent = i;
+        progress.appendChild(p);
+      }
+
+      let points = 0;
+      updateUI();
+
+      function updateUI() {
+        const pts = student.querySelectorAll(".point");
+        pts.forEach((p, idx) => p.classList.toggle("active", idx < points));
+        counter.textContent = `النقاط: ${points} / ${target}`;
+
+        let rewardMsg = "-";
+        if (surprisePoints.includes(points)) {
+          const chance = surprises[Math.floor(Math.random()*surprises.length)];
+          reward.textContent = `🎉 مفاجأة عند النقطة ${points}: ${chance}\n📱 تواصل مع ولي الأمر: ${parentPhone}`;
+          reward.style.display = "block";
+          rewardMsg = reward.textContent;
+        } else if (points === target) {
+          reward.textContent = `🏆 تهانينا! وصلت إلى الكأس الذهبي!\n📱 تواصل مع ولي الأمر: ${parentPhone}`;
+          reward.style.display = "block";
+          rewardMsg = reward.textContent;
+        } else {
+          reward.style.display = "none";
+        }
+
+        let row = document.querySelector(`#row_${id}`);
+        if (!row) {
+          row = document.createElement("tr");
+          row.id = `row_${id}`;
+          row.innerHTML = `<td>${name}</td><td id="points_${id}"></td><td>${target}</td><td id="reward_${id}"></td><td>${parentPhone}</td>`;
+          teacherTable.appendChild(row);
+        }
+        document.getElementById(`points_${id}`).textContent = points;
+        document.getElementById(`reward_${id}`).textContent = rewardMsg;
+      }
+
+      addBtn.addEventListener("click", () => { if (points < target) { points++; updateUI(); } });
+      removeBtn.addEventListener("click", () => { if (points > 0) { points--; updateUI(); } });
+      resetBtn.addEventListener("click", () => { points = 0; updateUI(); });
+    });
+  </script>
+
+  <footer style="text-align:center;margin-top:24px;font-size:20px;color:#555;">
+    تم التصميم بواسطة @مصطفى نافع
+  </footer>
+</body>
+</html>
